@@ -2,7 +2,7 @@
 
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-postgres_local_base = 'postgresql://egtssctfkxhubh:7a6621e541fb8ac258b9206fcb2a1e52dccb4b4cfd0bc5328f5365690fe0ca7f@ec2-23-23-245-89.compute-1.amazonaws.com'
+postgres_local_base = 'postgresql://egtssctfkxhubh:7a6621e541fb8ac258b9206fcb2a1e52dccb4b4cfd0bc5328f5365690fe0ca7f@ec2-23-23-245-89.compute-1.amazonaws.com/'
 database_name = 'da87pkbl2k0g9b'
 
 
