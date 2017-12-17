@@ -70,4 +70,5 @@ def drop_db():
 
 
 if __name__ == '__main__':
+    app.run(host=$HOST, port=$PORT)
     manager.run()
