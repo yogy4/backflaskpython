@@ -206,7 +206,7 @@ class ProductAPI(MethodView):
                     harga=post_data.get('harga'),
                     jumlah=post_data.get('jumlah')
                 )
-                    db.session.add(jproduct)
+                    db.session.add(product)
                     db.session.commit()
                     responseObject = {
                         'status': 'success',
