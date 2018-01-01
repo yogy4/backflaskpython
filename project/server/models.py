@@ -96,8 +96,8 @@ class Product(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nama = db.Column(db.String(255), nullable=False)
-    harga = db.Column(db.Integer(6), nullable=False)
-    jumlah = db.Column(db.Integer(6), nullable=False)
+    harga = db.Column(db.Integer, nullable=False)
+    jumlah = db.Column(db.Integer, nullable=False)
 
     def __init__(self, nama, harga, jumlah):
         self.nama = nama
