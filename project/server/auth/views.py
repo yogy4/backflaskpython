@@ -181,12 +181,15 @@ class LogoutAPI(MethodView):
 
 class ProductAPI(MethodView):
     """
-    User Registration Resource
+    Product Resource
     """
+    def post(self):
+        # get auth token
+        auth_header = request.headers.get('Authorization')
+        post_data = request.get_json()
+        # check if user already exists
+        product = Product.query.filter_by(nama=post_data.get('nama')).first()
 
-     auth_header = request.headers.get('Authorization')
-     post_data =request.get_json()
-     product = Product.query.filter_by(nama=post_data.get('nama')).first()
         if auth_header:
             auth_token = auth_header.split(" ")[1]
         else:
@@ -198,12 +201,12 @@ class ProductAPI(MethodView):
             #     blacklist_token = BlacklistToken(token=auth_token)
                 try:
                     # insert the token
-                     product = Product(
+                    product = Product(
                     nama=post_data.get('nama'),
                     harga=post_data.get('harga'),
                     jumlah=post_data.get('jumlah')
                 )
-                    db.session.add(product)
+                    db.session.add(jproduct)
                     db.session.commit()
                     responseObject = {
                         'status': 'success',
