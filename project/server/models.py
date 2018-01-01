@@ -89,3 +89,17 @@ class BlacklistToken(db.Model):
             return True
         else:
             return False
+
+class Product(db.Model):
+    """ User Model for storing user related details """
+    __tablename__ = "products"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nama = db.Column(db.String(255), nullable=False)
+    harga = db.Column(db.Integer(6), nullable=False)
+    jumlah = db.Column(db.Integer(6), nullable=False)
+
+    def __init__(self, nama, harga, jumlah):
+        self.nama = nama
+        self.harga = harga
+        self.jumlah = jumlah

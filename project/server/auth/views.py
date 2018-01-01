@@ -178,11 +178,65 @@ class LogoutAPI(MethodView):
             }
             return make_response(jsonify(responseObject)), 403
 
+
+class ProductAPI(MethodView):
+    """
+    User Registration Resource
+    """
+
+     auth_header = request.headers.get('Authorization')
+     post_data =request.get_json()
+     product = Product.query.filter_by(nama=post_data.get('nama')).first()
+        if auth_header:
+            auth_token = auth_header.split(" ")[1]
+        else:
+            auth_token = ''
+        if auth_token && not product:
+            # resp = User.decode_auth_token(auth_token)
+            # if not isinstance(resp, str):
+            #     # mark the token as blacklisted
+            #     blacklist_token = BlacklistToken(token=auth_token)
+                try:
+                    # insert the token
+                     product = Product(
+                    nama=post_data.get('nama'),
+                    harga=post_data.get('harga'),
+                    jumlah=post_data.get('jumlah')
+                )
+                    db.session.add(product)
+                    db.session.commit()
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'Successfully insert.'
+                    }
+                    return make_response(jsonify(responseObject)), 200
+                except Exception as e:
+                    responseObject = {
+                        'status': 'fail',
+                        'message': e
+                    }
+                    return make_response(jsonify(responseObject)), 200
+            else:
+                responseObject = {
+                    'status': 'fail',
+                    'message': resp
+                }
+                return make_response(jsonify(responseObject)), 401
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': 'Provide a valid auth token.'
+            }
+            return make_response(jsonify(responseObject)), 403
+
+
+
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
 login_view = LoginAPI.as_view('login_api')
 user_view = UserAPI.as_view('user_api')
 logout_view = LogoutAPI.as_view('logout_api')
+product_view = ProductAPI.as_view('product_view')
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
@@ -203,5 +257,10 @@ auth_blueprint.add_url_rule(
 auth_blueprint.add_url_rule(
     '/auth/logout',
     view_func=logout_view,
+    methods=['POST']
+)
+auth_blueprint.add_url_rule(
+    '/product',
+    view_func=product_view,
     methods=['POST']
 )
