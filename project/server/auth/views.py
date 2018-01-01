@@ -194,7 +194,7 @@ class ProductAPI(MethodView):
             auth_token = auth_header.split(" ")[1]
         else:
             auth_token = ''
-        if auth_token && not product:
+        if auth_token and not product:
             # resp = User.decode_auth_token(auth_token)
             # if not isinstance(resp, str):
             #     # mark the token as blacklisted
