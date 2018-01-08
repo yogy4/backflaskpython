@@ -264,20 +264,20 @@ class ProductAPI(MethodView):
                         }
                     }
                     isi.append(responseObject)
-                    response = jsonify(isi), 200
+                    # response = jsonify(isi), 200
                     # response.status_code = 200
                     # return response
 
-            return make_response(response)
+            return make_response(jsonify(isi)), 200
             responseObject = {
                 'status': 'fail',
                 'message': resp
             }
-            isi.append(responseObject)
-            response = jsonify(isi), 401
+            # isi.append(responseObject)
+            # response = jsonify(isi), 401
             # response.status_code = 401
             # return response
-            return make_response(response)
+            return make_response(jsonify(responseObject)), 401
         else:
             responseObject = {
                 'status': 'fail',
@@ -287,7 +287,7 @@ class ProductAPI(MethodView):
             # response = jsonify(isi)
             # response.status_code = 401
             # return response
-            return make_response(jsonify(responseObject)), 500
+            return make_response(jsonify(responseObject)), 401
 
 
 # define the API resources
