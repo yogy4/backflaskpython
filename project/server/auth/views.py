@@ -247,13 +247,13 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
         if auth_token:
-            resp = User.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
+            # resp = User.decode_auth_token(auth_token)
+            if not isinstance(str):
                 p = Product.query.all()
                 responseObject = {
                     'status': 'success',
                     'data': {
-                        # 'id': p.id,
+                        'id': p.id,
                         'nama': p.nama,
                         'harga': p.harga,
                         'jumlah': p.jumlah
