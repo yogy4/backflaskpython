@@ -195,8 +195,8 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
         if auth_token and not product:
-            # resp = User.decode_auth_token(auth_token)
-            # if not isinstance(resp, str):
+            resp = User.decode_auth_token(auth_token)
+            if not isinstance(resp, str):
             #     # mark the token as blacklisted
             #     blacklist_token = BlacklistToken(token=auth_token)
                 try:
@@ -219,12 +219,12 @@ class ProductAPI(MethodView):
                         'message': e
                     }
                     return make_response(jsonify(responseObject)), 200
-            # else:
-            #     responseObject = {
-            #         'status': 'fail',
-            #         'message': resp
-            #     }
-            #     return make_response(jsonify(responseObject)), 401
+            else:
+                responseObject = {
+                    'status': 'fail',
+                    'message': resp
+                }
+                return make_response(jsonify(responseObject)), 401
         else:
             responseObject = {
                 'status': 'fail',
@@ -264,7 +264,7 @@ class ProductAPI(MethodView):
                         }
                     }
                     isi.append(responseObject)
-                    response = make_response(jsonify(isi)), 200
+                    response = jsonify(isi), 200
                     # response.status_code = 200
                     # return response
 
