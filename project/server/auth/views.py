@@ -253,16 +253,16 @@ class ProductAPI(MethodView):
             isi = []
             # p = Product.query.all()
             for tampil in p:
-            responseObject = {
-                'status': 'success',
-                'data': {
-                    'product_id': tampil.id,
-                    'nama': tampil.nama,
-                    'harga': tampil.harga,
-                    'jumlah': tampil.jumlah
+                responseObject = {
+                    'status': 'success',
+                    'data': {
+                        'product_id': tampil.id,
+                        'nama': tampil.nama,
+                        'harga': tampil.harga,
+                        'jumlah': tampil.jumlah
+                    }
+                    isi.append(responseObject)
                 }
-                isi.append(responseObject)
-            }
             return make_response(jsonify(isi)), 200
             responseObject = {
                 'status': 'fail',
