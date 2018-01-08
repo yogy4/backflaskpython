@@ -283,11 +283,11 @@ class ProductAPI(MethodView):
                 'status': 'fail',
                 'message': 'Provide a valid auth token.'
             }
-            isi.append(responseObject)
-            response = jsonify(isi)
-            response.status_code = 401
-            return response
-            # return make_response(jsonify(isi)), 401
+            # isi.append(responseObject)
+            # response = jsonify(isi)
+            # response.status_code = 401
+            # return response
+            return make_response(jsonify(isi)), 401
 
 
 # define the API resources
