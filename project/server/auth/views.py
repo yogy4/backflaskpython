@@ -247,29 +247,29 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
         if auth_token:
-            # resp = User.decode_auth_token(auth_token)
-            # if not isinstance(resp, str):
+            resp = User.decode_auth_token(auth_token)
+            if not isinstance(resp, str):
             # p = Product.get_all()
             # isi = []
-            p = Product.query.all()
-            isi = []
-            for tampil in p:
-                responseObject = {
-                    'status': 'success',
-                    'data': {
-                        'product_id': tampil.id,
-                        'nama': tampil.nama,
-                        'harga': tampil.harga,
-                        'jumlah': tampil.jumlah
+                p = Product.query.all()
+                isi = []
+                for tampil in p:
+                    responseObject = {
+                        'status': 'success',
+                        'data': {
+                            'product_id': tampil.id,
+                            'nama': tampil.nama,
+                            'harga': tampil.harga,
+                            'jumlah': tampil.jumlah
+                        }
                     }
-                }
-                isi.append(responseObject)
+                    isi.append(responseObject)
 
-            return make_response(jsonify(isi)), 200
-            responseObject = {
-                'status': 'fail',
-                'message': resp
-            }
+                return make_response(jsonify(isi)), 200
+                responseObject = {
+                    'status': 'fail',
+                    'message': resp
+                }
             return make_response(jsonify(responseObject)), 401
         else:
             responseObject = {
