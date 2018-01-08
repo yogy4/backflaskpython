@@ -270,7 +270,7 @@ class ProductAPI(MethodView):
                     'status': 'fail',
                     'message': resp
                 }
-            return make_response(jsonify(responseObject)), 401
+                return make_response(jsonify(responseObject)), 401
         else:
             responseObject = {
                 'status': 'fail',
