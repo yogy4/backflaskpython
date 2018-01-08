@@ -247,9 +247,10 @@ class ProductAPI(MethodView):
                 return make_response(jsonify(responseObject)), 401
         else:
             auth_token = ''
-            isi = []
+            # isi = []
         if auth_token:
             resp = User.decode_auth_token(auth_token)
+            isi = []
             if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
