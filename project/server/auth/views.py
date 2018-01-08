@@ -273,11 +273,11 @@ class ProductAPI(MethodView):
                 'status': 'fail',
                 'message': resp
             }
-            # isi.append(responseObject)
-            # response = jsonify(isi)
+            isi.append(responseObject)
+            response = jsonify(isi), 401
             # response.status_code = 401
             # return response
-            return make_response(jsonify(responseObject)), 401
+            return make_response(response), 401
         else:
             responseObject = {
                 'status': 'fail',
