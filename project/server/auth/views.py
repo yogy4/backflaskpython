@@ -287,7 +287,7 @@ class ProductAPI(MethodView):
             # response = jsonify(isi)
             # response.status_code = 401
             # return response
-            return make_response(jsonify(responseObject)), 403
+            return make_response(jsonify(responseObject)), 500
 
 
 # define the API resources
