@@ -253,7 +253,7 @@ class ProductAPI(MethodView):
                 responseObject = {
                     'status': 'success',
                     'data': {
-                        'id': p.id,
+                        'product_id': p.id,
                         'nama': p.nama,
                         'harga': p.harga,
                         'jumlah': p.jumlah
