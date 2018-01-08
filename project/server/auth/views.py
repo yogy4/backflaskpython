@@ -266,9 +266,9 @@ class ProductAPI(MethodView):
                     isi.append(responseObject)
                     response = make_response(jsonify(isi)), 200
                     # response.status_code = 200
-                    return response
+                    # return response
 
-            # return make_response(jsonify(isi)), 200
+            return make_response(response), 200
             responseObject = {
                 'status': 'fail',
                 'message': resp
