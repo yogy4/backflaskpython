@@ -235,7 +235,7 @@ class ProductAPI(MethodView):
     def get(self):
         # get the auth token
         auth_header = request.headers.get('Authorization')
-        # isi = []
+        isi = []
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
@@ -248,10 +248,10 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
             # isi = []
-        if auth_token:
+        if auth_token and not isi:
             resp = User.decode_auth_token(auth_token)
-            isi = []
-            if not isinstance(resp, str) and not isi:
+            # isi = []
+            if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
                 p = Product.query.all()
