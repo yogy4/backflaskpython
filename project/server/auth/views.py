@@ -234,9 +234,9 @@ class ProductAPI(MethodView):
 
     def get(self):
         # get the auth token
-        isi = []
+        #isi = []
         auth_header = request.headers.get('Authorization')
-        # isi = []
+         isi = []
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
