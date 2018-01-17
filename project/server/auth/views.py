@@ -273,7 +273,7 @@ class ProductAPI(MethodView):
                     # return response
 
             return make_response(jsonify(isi)), 200
-            else:
+            # else:
             responseObject = {
                 'status': 'fail',
                 'message': resp
