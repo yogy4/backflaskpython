@@ -236,7 +236,7 @@ class ProductAPI(MethodView):
         # get the auth token
         #isi = []
         auth_header = request.headers.get('Authorization')
-         isi = []
+        isi = []
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
