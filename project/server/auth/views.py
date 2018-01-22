@@ -274,7 +274,7 @@ class ProductAPI(MethodView):
                     # return response
 
                 return make_response(jsonify(isi)), 200
-            except Exception as e:
+            except IndexError:
                  # else:
                 responseObject = {
                     'status': 'fail',
