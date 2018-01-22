@@ -256,24 +256,24 @@ class ProductAPI(MethodView):
                 if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
-                p = Product.query.all()
+                    p = Product.query.all()
                 # isi = []
-                for tampil in p:
-                    responseObject = {
-                        'status': 'success',
-                        'data': {
-                            'product_id': tampil.id,
-                            'nama': tampil.nama,
-                            'harga': tampil.harga,
-                            'jumlah': tampil.jumlah
+                    for tampil in p:
+                        responseObject = {
+                            'status': 'success',
+                            'data': {
+                                'product_id': tampil.id,
+                                'nama': tampil.nama,
+                                'harga': tampil.harga,
+                                'jumlah': tampil.jumlah
+                            }
                         }
-                    }
-                    isi.append(responseObject)
+                        isi.append(responseObject)
                     # response = jsonify(isi), 200
                     # response.status_code = 200
                     # return response
 
-                return make_response(jsonify(isi)), 200
+                    return make_response(jsonify(isi)), 200
             except Exception as e:
                  # else:
                 responseObject = {
