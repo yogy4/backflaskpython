@@ -253,7 +253,7 @@ class ProductAPI(MethodView):
             try:
                 resp = User.decode_auth_token(auth_token)
             # isi = []
-            if not isinstance(resp, str):
+                if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
                 p = Product.query.all()
