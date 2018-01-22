@@ -250,7 +250,7 @@ class ProductAPI(MethodView):
             auth_token = ''
             # isi = []
         if auth_token:
-            try:
+            # try:
                 resp = User.decode_auth_token(auth_token)
             # isi = []
                 if not isinstance(resp, str):
@@ -284,17 +284,17 @@ class ProductAPI(MethodView):
             # return response
                 return make_response(jsonify(responseObject)), 401
 
-            except IndexError:
-                 # else:
-                responseObject = {
-                    'status': 'fail',
-                    'message': resp
-                }
+            # except IndexError:
+            #      # else:
+            #     responseObject = {
+            #         'status': 'fail',
+            #         'message': resp
+            #     }
             # isi.append(responseObject)
             # response = jsonify(isi), 401
             # response.status_code = 401
             # return response
-                return make_response(jsonify(responseObject)), 401
+                # return make_response(jsonify(responseObject)), 401
 
             
            
