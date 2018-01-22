@@ -251,9 +251,9 @@ class ProductAPI(MethodView):
             # isi = []
         if auth_token and not isi:
             try:
-                    resp = User.decode_auth_token(auth_token)
+                resp = User.decode_auth_token(auth_token)
             # isi = []
-                # if not isinstance(resp, str):
+                if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
                     p = Product.query.all()
@@ -273,7 +273,7 @@ class ProductAPI(MethodView):
                     # response.status_code = 200
                     # return response
 
-                        return make_response(jsonify(isi)), 200
+                return make_response(jsonify(isi)), 200
             except Exception as e:
                  # else:
                 responseObject = {
