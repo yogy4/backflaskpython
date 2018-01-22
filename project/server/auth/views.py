@@ -249,7 +249,7 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
             # isi = []
-        if auth_token and not isi:
+        if auth_token:
             try:
                 resp = User.decode_auth_token(auth_token)
             # isi = []
