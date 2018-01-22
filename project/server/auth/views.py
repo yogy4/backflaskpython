@@ -278,7 +278,7 @@ class ProductAPI(MethodView):
                  # else:
                 responseObject = {
                     'status': 'fail',
-                    'message': resp
+                    'message': 'ada salah'
                 }
             # isi.append(responseObject)
             # response = jsonify(isi), 401
