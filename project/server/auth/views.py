@@ -273,7 +273,7 @@ class ProductAPI(MethodView):
                     # response.status_code = 200
                     # return response
 
-                    return make_response(jsonify(isi)), 200
+                        return make_response(jsonify(isi)), 200
             except Exception as e:
                  # else:
                 responseObject = {
