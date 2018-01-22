@@ -268,12 +268,12 @@ class ProductAPI(MethodView):
                                 'jumlah': tampil.jumlah
                             }
                         }
-                        isi.append(responseObject)
+                        # isi.append(responseObject)
                     # response = jsonify(isi), 200
                     # response.status_code = 200
                     # return response
 
-                    return make_response(jsonify(isi)), 200
+                    return make_response(jsonify(responseObject)), 200
                 # else:
                 responseObject = {
                     'status': 'fail',
