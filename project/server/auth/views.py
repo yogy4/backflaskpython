@@ -232,7 +232,7 @@ class ProductAPI(MethodView):
             }
             return make_response(jsonify(responseObject)), 403
 
-    def get(self):
+    def get(self, isi=None):
         # get the auth token
         #isi = []
         auth_header = request.headers.get('Authorization')
@@ -249,14 +249,14 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
             # isi = []
-        if auth_token:
+        if auth_token and not isi:
             # try:
                 resp = User.decode_auth_token(auth_token)
             # isi = []
                 if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
-                    p = Product.query.all().items
+                    p = Product.query.all()
                     responseObject = {}
                 # isi = []
                     for tampil in p:
