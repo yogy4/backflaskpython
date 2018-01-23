@@ -232,7 +232,7 @@ class ProductAPI(MethodView):
             }
             return make_response(jsonify(responseObject)), 403
 
-    def get(self, isi=None, page=1):
+    def get(self):
         # get the auth token
         #isi = []
         auth_header = request.headers.get('Authorization')
@@ -249,16 +249,16 @@ class ProductAPI(MethodView):
         else:
             auth_token = ''
             # isi = []
-        if auth_token and not isi:
+        if auth_token:
             # try:
                 resp = User.decode_auth_token(auth_token)
             # isi = []
                 if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
-                    # p = Product.query.all()
-                    p = Product.query.paginate(page, 10).items
-                    responseObject = {}
+                    p = Product.query.all()
+                    # p = Product.query.paginate(page, 10).items
+                    isi = {}
                 # isi = []
                     for tampil in p:
                         responseObject = {
@@ -271,24 +271,24 @@ class ProductAPI(MethodView):
                             }
                         }
                         # responseObject.append()
-                        # isi.append(responseObject)
+                        isi.append(responseObject)
                     # response = jsonify(isi), 200
                     # response.status_code = 200
                     # return response
 
-                    # return make_response(jsonify(responseObject)), 200
-                    return jsonify(responseObject), 200
+                    return make_response(jsonify(isi)), 200
+                    # return jsonify(responseObject), 200
                 # else:
                 responseObject = {
                     'status': 'fatal',
                     'message': resp
                 }
-            # isi.append(responseObject)
+                isi.append(responseObject)
             # response = jsonify(isi), 401
             # response.status_code = 401
             # return response
-                # return make_response(jsonify(responseObject)), 401
-                return jsonify(responseObject), 401
+                return make_response(jsonify(responseObject)), 401
+                # return jsonify(responseObject), 401
 
             # except IndexError:
             #      # else:
