@@ -256,7 +256,7 @@ class ProductAPI(MethodView):
                 if not isinstance(resp, str):
             # p = Product.get_all()
                 # isi = []
-                    p = Product.query.all()
+                    p = Product.query.all().items
                     responseObject = {}
                 # isi = []
                     for tampil in p:
@@ -269,7 +269,7 @@ class ProductAPI(MethodView):
                                 'jumlah': tampil.jumlah,
                             }
                         }
-                        responseObject.append()
+                        # responseObject.append()
                         # isi.append(responseObject)
                     # response = jsonify(isi), 200
                     # response.status_code = 200
