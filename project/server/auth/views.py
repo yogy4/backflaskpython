@@ -274,7 +274,8 @@ class ProductAPI(MethodView):
                     # response.status_code = 200
                     # return response
 
-                    return make_response(jsonify(responseObject)), 200
+                    # return make_response(jsonify(responseObject)), 200
+                    return jsonify(responseObject), 200
                 # else:
                 responseObject = {
                     'status': 'fatal',
@@ -284,7 +285,8 @@ class ProductAPI(MethodView):
             # response = jsonify(isi), 401
             # response.status_code = 401
             # return response
-                return make_response(jsonify(responseObject)), 401
+                # return make_response(jsonify(responseObject)), 401
+                return jsonify(responseObject), 401
 
             # except IndexError:
             #      # else:
