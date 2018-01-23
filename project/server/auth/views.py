@@ -236,7 +236,7 @@ class ProductAPI(MethodView):
         # get the auth token
         #isi = []
         auth_header = request.headers.get('Authorization')
-        # isi = ''
+        isi = {}
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
@@ -258,7 +258,7 @@ class ProductAPI(MethodView):
                 # isi = []
                     p = Product.query.all()
                     # p = Product.query.paginate(page, 10).items
-                    isi = {}
+                    # isi = {}
                 # isi = []
                     for tampil in p:
                         responseObject = {
