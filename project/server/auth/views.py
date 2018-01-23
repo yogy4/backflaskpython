@@ -266,7 +266,7 @@ class ProductAPI(MethodView):
                                 'product_id': tampil.id,
                                 'nama': tampil.nama,
                                 'harga': tampil.harga,
-                                'jumlah': tampil.jumlah
+                                'jumlah': tampil.jumlah,
                             }
                         }
                         # isi.append(responseObject)
