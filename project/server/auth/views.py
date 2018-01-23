@@ -269,6 +269,7 @@ class ProductAPI(MethodView):
                                 'jumlah': tampil.jumlah,
                             }
                         }
+                        responseObject.append()
                         # isi.append(responseObject)
                     # response = jsonify(isi), 200
                     # response.status_code = 200
