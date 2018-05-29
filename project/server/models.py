@@ -91,7 +91,7 @@ class BlacklistToken(db.Model):
             return False
 
 class Product(db.Model):
-    """ User Model for storing user related details """
+    """ Product Model for storing product related details """
     __tablename__ = "products"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -103,3 +103,15 @@ class Product(db.Model):
         self.nama = nama
         self.harga = harga
         self.jumlah = jumlah
+
+class Distributor(db.Model):
+    """ Distributor Model for storing distributor related details """
+    __tablename__ = "distributors"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    perusahaan = db.Column(db.String(255), nullable=False)
+    barang = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, perusahaan, barang):
+        self.perusahaan = perusahaan
+        self.barang = barang

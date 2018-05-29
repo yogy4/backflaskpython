@@ -5,7 +5,7 @@ from flask import Blueprint, request, make_response, jsonify
 from flask.views import MethodView
 
 from project.server import bcrypt, db
-from project.server.models import User, BlacklistToken, Product
+from project.server.models import User, BlacklistToken, Product, Distributor
 
 auth_blueprint = Blueprint('auth', __name__)
 
@@ -315,6 +315,142 @@ class ProductAPI(MethodView):
             # return response
             return make_response(jsonify(responseObject)), 401
 
+class DistributorAPI(MethodView):
+    """
+    Distributor Resource
+    """
+    def post(self):
+        # get auth token
+        auth_header = request.headers.get('Authorization')
+        post_data = request.get_json()
+        # check if user already exists
+        distributor = Distributor.query.filter_by(nama=post_data.get('perusahaan')).first()
+
+        if auth_header:
+            auth_token = auth_header.split(" ")[1]
+        else:
+            auth_token = ''
+        if auth_token and not distributor:
+            resp = User.decode_auth_token(auth_token)
+            if not isinstance(resp, str):
+            #     # mark the token as blacklisted
+            #     blacklist_token = BlacklistToken(token=auth_token)
+                try:
+                    # insert the token
+                    distributor = Distributor(
+                    nama=post_data.get('perusahaan'),
+                    harga=post_data.get('barang')
+                    
+                )
+                    db.session.add(distributor)
+                    db.session.commit()
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'Successfully insert.'
+                    }
+                    return make_response(jsonify(responseObject)), 200
+                except Exception as e:
+                    responseObject = {
+                        'status': 'fail',
+                        'message': e
+                    }
+                    return make_response(jsonify(responseObject)), 401
+            else:
+                responseObject = {
+                    'status': 'fail',
+                    'message': resp
+                }
+                return make_response(jsonify(responseObject)), 401
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': 'Provide a valid auth token.'
+            }
+            return make_response(jsonify(responseObject)), 403
+
+    def get(self):
+        # get the auth token
+        #isi = []
+        auth_header = request.headers.get('Authorization')
+        isi = []
+        if auth_header:
+            try:
+                auth_token = auth_header.split(" ")[1]
+            except IndexError:
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'Bearer token malformed.'
+                }
+                return make_response(jsonify(responseObject)), 401
+        else:
+            auth_token = ''
+            # isi = []
+        if auth_token:
+            # try:
+                resp = User.decode_auth_token(auth_token)
+            # isi = []
+                if not isinstance(resp, str):
+            # p = Product.get_all()
+                # isi = []
+                    p = Distributor.query.all()
+                    # p = Product.query.paginate(page, 10).items
+                    # isi = {}
+                # isi = []
+                    for tampil in p:
+                        responseObject = {
+                            'status': 'success',
+                            'data': {
+                                'distributor_id': tampil.id,
+                                'perusahaan': tampil.perusahaan,
+                                'barang': tampil.barang,
+                                
+                            }
+                        }
+                        # responseObject.append()
+                        isi.append(responseObject)
+                    # response = jsonify(isi), 200
+                    # response.status_code = 200
+                    # return response
+
+                    return make_response(jsonify(isi)), 200
+                    # return jsonify(responseObject), 200
+                # else:
+                responseObject = {
+                    'status': 'fatal',
+                    'message': resp
+                }
+                isi.append(responseObject)
+            # response = jsonify(isi), 401
+            # response.status_code = 401
+            # return response
+                return make_response(jsonify(responseObject)), 401
+                # return jsonify(responseObject), 401
+
+            # except IndexError:
+            #      # else:
+            #     responseObject = {
+            #         'status': 'fail',
+            #         'message': resp
+            #     }
+            # isi.append(responseObject)
+            # response = jsonify(isi), 401
+            # response.status_code = 401
+            # return response
+                # return make_response(jsonify(responseObject)), 401
+
+            
+           
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': 'Provide a valid auth token.'
+            }
+            # isi.append(responseObject)
+            # response = jsonify(isi)
+            # response.status_code = 401
+            # return response
+            return make_response(jsonify(responseObject)), 401
+
 
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
@@ -322,7 +458,7 @@ login_view = LoginAPI.as_view('login_api')
 user_view = UserAPI.as_view('user_api')
 logout_view = LogoutAPI.as_view('logout_api')
 product_view = ProductAPI.as_view('product_view')
-
+distributor_view = DistributorAPI.as_view('distributor_view')
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
     '/auth/register',
@@ -352,5 +488,15 @@ auth_blueprint.add_url_rule(
 auth_blueprint.add_url_rule(
     '/product/list',
     view_func=product_view,
+    methods=['GET']
+)
+auth_blueprint.add_url_rule(
+    '/distributor',
+    view_func=distributor_view,
+    methods=['POST']
+)
+auth_blueprint.add_url_rule(
+    '/distributor',
+    view_func=distributor_view,
     methods=['GET']
 )
