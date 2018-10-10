@@ -24,13 +24,13 @@ from project.server import app, db, models
 migrate = Migrate(app, db)
 manager = Manager(app)
 
-# migrations
+# untuk migrasi
 manager.add_command('db', MigrateCommand)
 
 
 @manager.command
 def test():
-    """Runs the unit tests without test coverage."""
+    """Menjalankan unittest tanpa coverage."""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -40,7 +40,7 @@ def test():
 
 @manager.command
 def cov():
-    """Runs the unit tests with coverage."""
+    """Menjalankan unittest dengan coverage."""
     tests = unittest.TestLoader().discover('project/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -59,13 +59,13 @@ def cov():
 
 @manager.command
 def create_db():
-    """Creates the db tables."""
+    """Membuat table"""
     db.create_all()
 
 
 @manager.command
 def drop_db():
-    """Drops the db tables."""
+    """Menghapus table"""
     db.drop_all()
 
 

@@ -12,13 +12,13 @@ auth_blueprint = Blueprint('auth', __name__)
 
 class RegisterAPI(MethodView):
     """
-    User Registration Resource
+    Ini berisi method untuk registrasi
     """
 
     def post(self):
-        # get the post data
+        # mengambil data
         post_data = request.get_json()
-        # check if user already exists
+        # kemudian check apakah user sudah ada
         user = User.query.filter_by(email=post_data.get('email')).first()
         if not user:
             try:
@@ -26,10 +26,10 @@ class RegisterAPI(MethodView):
                     email=post_data.get('email'),
                     password=post_data.get('password')
                 )
-                # insert the user
+                # bila belum maka masukan user baru
                 db.session.add(user)
                 db.session.commit()
-                # generate the auth token
+                # bila input berhasil maka akan menampilkan token
                 auth_token = user.encode_auth_token(user.id)
                 responseObject = {
                     'status': 'success',
@@ -53,13 +53,13 @@ class RegisterAPI(MethodView):
 
 class LoginAPI(MethodView):
     """
-    User Login Resource
+    Ini berisi method untuk login user
     """
     def post(self):
-        # get the post data
+        # mendapatkan data
         post_data = request.get_json()
         try:
-            # fetch the user data
+            # mengambil data user beserta password yang diinput
             user = User.query.filter_by(
                 email=post_data.get('email')
             ).first()
@@ -91,10 +91,10 @@ class LoginAPI(MethodView):
 
 class UserAPI(MethodView):
     """
-    User Resource
+    Ini berisi method untuk objek user
     """
     def get(self):
-        # get the auth token
+        # method ini diproteksi dengan token jadi pertama kali yang harus diambil oleh system adalah token
         auth_header = request.headers.get('Authorization')
         if auth_header:
             try:
@@ -136,10 +136,10 @@ class UserAPI(MethodView):
 
 class LogoutAPI(MethodView):
     """
-    Logout Resource
+    Ini berisi method untuk logout
     """
     def post(self):
-        # get auth token
+        # method ini bisa dijalankan bila login berhasil 
         auth_header = request.headers.get('Authorization')
         if auth_header:
             auth_token = auth_header.split(" ")[1]
@@ -148,10 +148,10 @@ class LogoutAPI(MethodView):
         if auth_token:
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
-                # mark the token as blacklisted
+                # ini untuk menandai bahwa token telah diblacklist
                 blacklist_token = BlacklistToken(token=auth_token)
                 try:
-                    # insert the token
+                    # menginputkan token
                     db.session.add(blacklist_token)
                     db.session.commit()
                     responseObject = {
@@ -181,13 +181,14 @@ class LogoutAPI(MethodView):
 
 class ProductAPI(MethodView):
     """
-    Product Resource
+    Ini berisi method untuk objek product dan untuk mengakses perlu login terlebih dahulu
     """
     def post(self):
-        # get auth token
+        # pertama ambil token
         auth_header = request.headers.get('Authorization')
+        # bila token belum expired maka inputan bisa dikirim
         post_data = request.get_json()
-        # check if user already exists
+        # sebelum inputan dimasukan dalam tabel dicek terlebih dahulu apakah inputan sudah ada atau belum
         product = Product.query.filter_by(nama=post_data.get('nama')).first()
 
         if auth_header:
@@ -197,10 +198,9 @@ class ProductAPI(MethodView):
         if auth_token and not product:
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
-            #     # mark the token as blacklisted
-            #     blacklist_token = BlacklistToken(token=auth_token)
+            
                 try:
-                    # insert the token
+                    # masukan inputan ke dalam tabel products
                     product = Product(
                     nama=post_data.get('nama'),
                     harga=post_data.get('harga'),
@@ -233,8 +233,8 @@ class ProductAPI(MethodView):
             return make_response(jsonify(responseObject)), 403
 
     def get(self):
-        # get the auth token
-        #isi = []
+        # method ini untuk menampilkan data product dan diproteksi dengan token 
+        
         auth_header = request.headers.get('Authorization')
         isi = []
         if auth_header:
@@ -248,18 +248,12 @@ class ProductAPI(MethodView):
                 return make_response(jsonify(responseObject)), 401
         else:
             auth_token = ''
-            # isi = []
         if auth_token:
-            # try:
                 resp = User.decode_auth_token(auth_token)
-            # isi = []
                 if not isinstance(resp, str):
-            # p = Product.get_all()
-                # isi = []
+           
                     p = Product.query.all()
-                    # p = Product.query.paginate(page, 10).items
-                    # isi = {}
-                # isi = []
+                    
                     for tampil in p:
                         responseObject = {
                             'status': 'success',
@@ -270,37 +264,19 @@ class ProductAPI(MethodView):
                                 'jumlah': tampil.jumlah,
                             }
                         }
-                        # responseObject.append()
                         isi.append(responseObject)
-                    # response = jsonify(isi), 200
-                    # response.status_code = 200
-                    # return response
+                   
 
                     return make_response(jsonify(isi)), 200
-                    # return jsonify(responseObject), 200
-                # else:
+                   
                 responseObject = {
                     'status': 'fatal',
                     'message': resp
                 }
                 isi.append(responseObject)
-            # response = jsonify(isi), 401
-            # response.status_code = 401
-            # return response
+            
                 return make_response(jsonify(responseObject)), 401
-                # return jsonify(responseObject), 401
-
-            # except IndexError:
-            #      # else:
-            #     responseObject = {
-            #         'status': 'fail',
-            #         'message': resp
-            #     }
-            # isi.append(responseObject)
-            # response = jsonify(isi), 401
-            # response.status_code = 401
-            # return response
-                # return make_response(jsonify(responseObject)), 401
+                
 
             
            
@@ -309,21 +285,19 @@ class ProductAPI(MethodView):
                 'status': 'fail',
                 'message': 'Provide a valid auth token.'
             }
-            # isi.append(responseObject)
-            # response = jsonify(isi)
-            # response.status_code = 401
-            # return response
+           
             return make_response(jsonify(responseObject)), 401
 
 class DistributorAPI(MethodView):
     """
-    Distributor Resource
+    Ini berisi method untuk objek distributor dan diproteksi dengan token maka harus login terlebih dahulu
     """
     def post(self):
-        # get auth token
+        # ambil token
         auth_header = request.headers.get('Authorization')
+        # bila token valid maka bisa mengirim inputan
         post_data = request.get_json()
-        # check if user already exists
+        # ini untuk mengechek apakah inputan sudah ada atau belum dalam database
         distributor = Distributor.query.filter_by(nama=post_data.get('perusahaan')).first()
 
         if auth_header:
@@ -333,15 +307,14 @@ class DistributorAPI(MethodView):
         if auth_token and not distributor:
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
-            #     # mark the token as blacklisted
-            #     blacklist_token = BlacklistToken(token=auth_token)
+            
                 try:
-                    # insert the token
+                    # masukan inputan
                     distributor = Distributor(
                     nama=post_data.get('perusahaan'),
                     harga=post_data.get('barang')
                     
-                )
+                    )
                     db.session.add(distributor)
                     db.session.commit()
                     responseObject = {
@@ -369,8 +342,7 @@ class DistributorAPI(MethodView):
             return make_response(jsonify(responseObject)), 403
 
     def get(self):
-        # get the auth token
-        #isi = []
+        # method ini untuk menampilkan data distributor
         auth_header = request.headers.get('Authorization')
         isi = []
         if auth_header:
@@ -384,18 +356,10 @@ class DistributorAPI(MethodView):
                 return make_response(jsonify(responseObject)), 401
         else:
             auth_token = ''
-            # isi = []
         if auth_token:
-            # try:
                 resp = User.decode_auth_token(auth_token)
-            # isi = []
                 if not isinstance(resp, str):
-            # p = Product.get_all()
-                # isi = []
                     p = Distributor.query.all()
-                    # p = Product.query.paginate(page, 10).items
-                    # isi = {}
-                # isi = []
                     for tampil in p:
                         responseObject = {
                             'status': 'success',
@@ -406,37 +370,19 @@ class DistributorAPI(MethodView):
                                 
                             }
                         }
-                        # responseObject.append()
                         isi.append(responseObject)
-                    # response = jsonify(isi), 200
-                    # response.status_code = 200
-                    # return response
+                    
 
                     return make_response(jsonify(isi)), 200
-                    # return jsonify(responseObject), 200
-                # else:
+                   
                 responseObject = {
                     'status': 'fatal',
                     'message': resp
                 }
                 isi.append(responseObject)
-            # response = jsonify(isi), 401
-            # response.status_code = 401
-            # return response
+           
                 return make_response(jsonify(responseObject)), 401
-                # return jsonify(responseObject), 401
-
-            # except IndexError:
-            #      # else:
-            #     responseObject = {
-            #         'status': 'fail',
-            #         'message': resp
-            #     }
-            # isi.append(responseObject)
-            # response = jsonify(isi), 401
-            # response.status_code = 401
-            # return response
-                # return make_response(jsonify(responseObject)), 401
+               
 
             
            
@@ -445,21 +391,18 @@ class DistributorAPI(MethodView):
                 'status': 'fail',
                 'message': 'Provide a valid auth token.'
             }
-            # isi.append(responseObject)
-            # response = jsonify(isi)
-            # response.status_code = 401
-            # return response
+            
             return make_response(jsonify(responseObject)), 401
 
 
-# define the API resources
+# mendefinisikan api
 registration_view = RegisterAPI.as_view('register_api')
 login_view = LoginAPI.as_view('login_api')
 user_view = UserAPI.as_view('user_api')
 logout_view = LogoutAPI.as_view('logout_api')
 product_view = ProductAPI.as_view('product_view')
 distributor_view = DistributorAPI.as_view('distributor_view')
-# add Rules for API Endpoints
+# membuat endpoint untuk api
 auth_blueprint.add_url_rule(
     '/auth/register',
     view_func=registration_view,

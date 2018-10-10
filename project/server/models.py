@@ -8,7 +8,7 @@ from project.server import app, db, bcrypt
 
 
 class User(db.Model):
-    """ User Model for storing user related details """
+    """ Untuk mendeskripsikan tabel user """
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -27,7 +27,7 @@ class User(db.Model):
 
     def encode_auth_token(self, user_id):
         """
-        Generates the Auth Token
+        Ini untuk menghasilkan authentikasi token
         :return: string
         """
         try:
@@ -47,7 +47,7 @@ class User(db.Model):
     @staticmethod
     def decode_auth_token(auth_token):
         """
-        Validates the auth token
+        Ini untuk memvalidasi authentikasi token
         :param auth_token:
         :return: integer|string
         """
@@ -66,7 +66,7 @@ class User(db.Model):
 
 class BlacklistToken(db.Model):
     """
-    Token Model for storing JWT tokens
+    Ini untuk menyimpan token yang sudah di blacklist
     """
     __tablename__ = 'blacklist_tokens'
 
@@ -91,7 +91,7 @@ class BlacklistToken(db.Model):
             return False
 
 class Product(db.Model):
-    """ Product Model for storing product related details """
+    """ Ini untuk mendeskripsikan table product """
     __tablename__ = "products"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -105,7 +105,7 @@ class Product(db.Model):
         self.jumlah = jumlah
 
 class Distributor(db.Model):
-    """ Distributor Model for storing distributor related details """
+    """ ini untuk mendeskripsikan table distributor """
     __tablename__ = "distributors"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
